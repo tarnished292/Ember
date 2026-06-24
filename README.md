@@ -1,25 +1,19 @@
 # Ember
 
-Ember is a desktop application built with Tauri, combining a Rust backend with a modern web frontend. It focuses on performance, low overhead, and a clean separation between system-level logic and UI.
+Ember is a desktop music application focused on fast, responsive playback and a clean listening experience.
 
-The project is structured to support fast iteration while keeping the core architecture stable and predictable as features grow.
+It is designed to stay minimal in interaction while maintaining stable, predictable behavior during continuous use.
 
-## Core Focus
+## Purpose
 
-- Lightweight desktop runtime
-- Rust-driven backend logic
-- Web-based UI layer
-- Clear separation of concerns
-- Performance-first design
-
-## Architecture
-
-- **Frontend:** Vite + React
-- **Backend:** Rust (Tauri core)
-- **Bridge:** Tauri IPC layer
+Music playback should feel immediate. No delays, no friction, no unnecessary interface noise. Ember is built around that constraint.
 
 ## Design Direction
 
-Ember is built around a simple principle: keep systems small, explicit, and composable. Complexity is introduced only when it becomes necessary, not by default.
+The system is structured to keep playback logic and interface behavior tightly controlled but clearly separated, so changes remain safe as features evolve.
 
-The goal is long-term maintainability over short-term convenience.
+Simplicity is treated as a constraint, not a style choice.
+
+## Status
+
+Early stage. Core functionality under active development.
