@@ -20,7 +20,7 @@ function Sidebar({ songs }) {
 
   return (
     <>
-      <div className="h-screen bg-black w-56 text-white select-none border-r border-zinc-800">
+      <div className="w-56 h-full text-white border-r border-zinc-800">
         <div className="text-white   pt-6 cursor-pointer text-sm">
           <div className="flex items-center justify-center mr-28 mb-3">
             <img src="./icon.png" alt="image-icon" className="w-16" />

@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
+import Player from "./components/Player";
 
 export default function App() {
   const [songs, setSongs] = useState([]);
@@ -12,13 +13,15 @@ export default function App() {
   }, []);
 
   return (
-        <div className="h-screen bg-black">
-          <Navbar />
-    
-          <div className="flex h-[calc(100vh-40px)]">
-            <Sidebar />
-          </div>
+    <div className="flex flex-col h-screen bg-black overflow-hidden">
+        <Navbar />
+        {/* flex-1 min-h-0 is the key — lets children shrink below screen height */}
+        <div className="flex flex-1 min-h-0">
+          <Sidebar />
+        <Home songs={songs} />
         </div>
-      );
-    
-}
+        <Player />
+      </div>
+    );
+  }
+   
