@@ -7,33 +7,29 @@ function Home({ songs = [] }) {
 
   console.log(currentSong);
 
-
-
   return (
     <>
-      <div className="flex-1 overflow-y-auto bg-[#121212] text-white px-5 py-5">
-        <h1 className="text-2xl font-semibold ml-5 mt-5">Good Evening...</h1>
+      <div className="flex-1 overflow-y-auto scrollbar-hide bg-[#121212] text-white px-5 py-5 ">
+        <h1 className="text-2xl font-semibold ml-2 mt-5 mb-4">Library</h1>
         <div className="cursor-pointer">
           {songs.map((song) => {
-
-            console.log(song.cover?.slice(0, 50));
-            console.log(song.duration);
-
+            const isActive = currentSong?.path === song.path;
             return (
-            
               <div
                 key={song.path}
                 onClick={() => setCurrentSong(song)}
-                className="flex space-x-5 space-y-6 "
+                className={`flex items-center gap-4 px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                  isActive ? "bg-[#C96A2A]/20 border border-[#C96A2A]/30" : "hover:bg-white/5"
+                }`}
               >
-                <img className="w-16 h-18 rounded-lg" src={song.cover} />
+                <img className="w-10 h-10 rounded-lg" src={song.cover} />
                 <div className="items-center justify-center">
-                  <h1>{song.title}</h1>
-                  <h1 className="text-gray-400 text-sm">{song.artist}</h1>
-                  <h1 className="text-gray-400 text-sm">{song.duration}</h1>
+                <h1 className={`text-sm font-medium truncate ${isActive ? "text-[#C96A2A]" : ""}`}>{song.title}</h1>
+                  <p className="text-gray-400 text-sm">{song.artist || "Unknown artist"}</p>
+                  <p>{song.duration}</p>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </div>

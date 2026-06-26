@@ -1,8 +1,8 @@
 mod metadata;
 use log::info;
+use metadata::read_tags;
 use serde::Serialize;
 use std::{fs, path::PathBuf};
-use metadata::read_tags;
 
 #[tauri::command]
 fn list_song() -> Vec<Song> {
@@ -22,11 +22,9 @@ struct Song {
     name: String,
     album: Option<String>,
     artist: Option<String>,
-    duration: Option<u32>,
     path: String,
     cover: Option<String>,
 }
-
 
 fn read_file(path: &PathBuf) -> Vec<Song> {
     let paths = fs::read_dir(path).unwrap();
@@ -55,13 +53,12 @@ fn read_file(path: &PathBuf) -> Vec<Song> {
                 .unwrap_or("Unknown")
                 .to_string();
 
-            let (title, album, duration, artist, cover) = read_tags(path.clone());
+            let (title, album, artist, cover) = read_tags(path.clone());
             songs.push(Song {
                 name,
                 path: path.display().to_string(),
                 title,
                 album,
-                duration,
                 artist,
                 cover,
             });
@@ -71,6 +68,16 @@ fn read_file(path: &PathBuf) -> Vec<Song> {
     return songs;
 }
 
+#[tauri::command]
+fn load_lyrics(song_path: PathBuf) -> Option<String> {
+    let lyrics_path = song_path.with_extension("lrc");
+    if !lyrics_path.exists() {
+        return None;
+    }
+
+    println!("{:?}", lyrics_path);
+    Some(fs::read_to_string(lyrics_path).ok()?)
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -78,7 +85,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_log::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![list_song])
+        .invoke_handler(tauri::generate_handler![list_song, load_lyrics])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

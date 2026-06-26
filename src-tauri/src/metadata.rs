@@ -2,9 +2,10 @@ use std::path::PathBuf;
 use id3::{Tag, TagLike};
 use base64::{Engine, engine::general_purpose};
 
-pub fn read_tags(path: PathBuf) -> (Option<String>, Option<String>, Option<u32>, Option<String>, Option<String>) {
+
+pub fn read_tags(path: PathBuf) -> (Option<String>, Option<String>, Option<String>, Option<String>) {
     let Ok(tag) = Tag::read_from_path(&path) else {
-        return (None, None, None, None, None);
+        return (None, None, None, None);
     };
 
     let cover = tag.pictures()
@@ -18,8 +19,8 @@ pub fn read_tags(path: PathBuf) -> (Option<String>, Option<String>, Option<u32>,
     (
         tag.title().map(|t| t.to_string()),
         tag.album().map(|a| a.to_string()),
-        tag.duration(),
         tag.artist().map(|a| a.to_string()),
         cover,
     )
 }
+
