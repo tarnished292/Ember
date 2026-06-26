@@ -15,7 +15,7 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen bg-black overflow-hidden">
         <Navbar />
-        {/* flex-1 min-h-0 is the key — lets children shrink below screen height */}
+     
         <div className="flex flex-1 min-h-0">
           <Sidebar />
         <Home songs={songs} />

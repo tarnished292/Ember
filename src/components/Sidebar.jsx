@@ -5,11 +5,10 @@ import {
   LucideDisc,
   LucideDownload,
   LucideHeart,
-  LucideUsers,
   Telescope,
 } from "lucide-react";
 
-function Sidebar({ songs }) {
+function Sidebar() {
   const navItem = [
     { id: "home", icon: <AudioLines size={18} />, label: "Explore" },
     { id: "library", icon: <Library size={18} />, label: "Library" },
@@ -20,8 +19,8 @@ function Sidebar({ songs }) {
 
   return (
     <>
-      <div className="w-56 h-full text-white border-r border-zinc-800">
-        <div className="text-white   pt-6 cursor-pointer text-sm">
+      <div className="w-56 h-full text-white border-r border-zinc-800 bg-[#121212]">
+        <div className="text-white pt-6 cursor-pointer text-sm">
           <div className="flex items-center justify-center mr-28 mb-3">
             <img src="./icon.png" alt="image-icon" className="w-16" />
 

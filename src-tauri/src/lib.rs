@@ -22,7 +22,7 @@ struct Song {
     name: String,
     album: Option<String>,
     artist: Option<String>,
-    duration: Option<String>,
+    duration: Option<u32>,
     path: String,
     cover: Option<String>,
 }
