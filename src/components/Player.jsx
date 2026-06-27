@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import {  Undo, Redo } from "lucide-react";
+import { Undo, Redo, MicVocal } from "lucide-react";
 import { Store } from "../store/state";
 import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
@@ -11,6 +11,9 @@ function Player() {
   const isPlaying = Store((state) => state.isPlaying);
   const setPlaying = Store((state) => state.setPlaying);
   const audioRef = useRef(null);
+  const lyricsMode = Store((state) => state.lyricsMode);
+  const setLyricsMode = Store((state) => state.setLyricsMode);
+  const setLyrics = Store((state) => state.setLyrics);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -21,9 +24,10 @@ function Player() {
     invoke("load_lyrics", {
       songPath: currentSong.path,
     }).then((lyrics) => {
+      setLyrics(lyrics);
       console.log(lyrics);
     });
-    
+
     const audio = audioRef.current;
     audio.src = convertFileSrc(currentSong.path);
     audio.load();
@@ -61,8 +65,6 @@ function Player() {
         }}
       />
       <div className="h-24 bg-black text-white flex flex-col justify-center px-6 gap-3">
-        
-
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 w-1/3">
             {currentSong.cover ? (
@@ -75,22 +77,36 @@ function Player() {
               <div className="w-10 h-10 rounded-lg bg-zinc-800" />
             )}
             <div>
-              <h3 className="text-sm font-medium truncate">{currentSong.title || currentSong.name}</h3>
-              <p className="text-xs text-zinc-500 truncate">{currentSong.artist || "Unknown Artist"}</p>
+              <h3 className="text-sm font-medium truncate">
+                {currentSong.title || currentSong.name}
+              </h3>
+              <p className="text-xs text-zinc-500 truncate">
+                {currentSong.artist || "Unknown Artist"}
+              </p>
             </div>
           </div>
-      
+
           <div className="flex items-center justify-center space-x-10">
-          <button><Undo /></button>
-          <button   className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition cursor-pointer" onClick={() => setPlaying(!isPlaying)}>
-            {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
-          </button>
-          <button><Redo /></button>
+            <button>
+              <Undo />
+            </button>
+            <button
+              className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition cursor-pointer"
+              onClick={() => setPlaying(!isPlaying)}
+            >
+              {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
+            </button>
+            <button>
+              <Redo />{" "}
+            </button>
+            <button onClick={() => setLyricsMode(!lyricsMode)} className="cursor-pointer">
+              <MicVocal size={16} />{" "}
+            </button>
           </div>
-      
+
           <div className="w-1/3" />
         </div>
-      
+
         <div className="flex items-center gap-2 w-1/2 mx-auto">
           <span className="text-xs text-zinc-500 w-8 text-right">
             {`${Math.floor(currentTime / 60)}:${String(Math.floor(currentTime % 60)).padStart(2, "0")}`}
@@ -117,7 +133,6 @@ function Player() {
             {`${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, "0")}`}
           </span>
         </div>
-      
       </div>
     </>
   );

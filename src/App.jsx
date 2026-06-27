@@ -5,12 +5,20 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
 import Player from "./components/Player";
+import FullScreen from "./components/LyricsView";
+import { Store } from "./store/state";
 
 export default function App() {
   const [songs, setSongs] = useState([]);
   useEffect(() => {
     invoke("list_song").then(setSongs);
   }, []);
+
+  const lyricsMode = Store((state) => state.lyricsMode);
+
+  if (lyricsMode) {
+    return <FullScreen />
+  }
 
   return (
     <div className="flex flex-col h-screen bg-black overflow-hidden">

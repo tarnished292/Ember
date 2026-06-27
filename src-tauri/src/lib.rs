@@ -3,6 +3,9 @@ use log::info;
 use metadata::read_tags;
 use serde::Serialize;
 use std::{fs, path::PathBuf};
+mod lyrics;
+use lyrics::load_lyrics;
+
 
 #[tauri::command]
 fn list_song() -> Vec<Song> {
@@ -66,17 +69,6 @@ fn read_file(path: &PathBuf) -> Vec<Song> {
     }
     info!("Loaded {} songs", songs.len());
     return songs;
-}
-
-#[tauri::command]
-fn load_lyrics(song_path: PathBuf) -> Option<String> {
-    let lyrics_path = song_path.with_extension("lrc");
-    if !lyrics_path.exists() {
-        return None;
-    }
-
-    println!("{:?}", lyrics_path);
-    Some(fs::read_to_string(lyrics_path).ok()?)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
